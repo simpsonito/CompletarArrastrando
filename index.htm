@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Drag and Drop de palabras a enunciados">
+    <meta name="keywords" content="Drag and Drop, Javascript, HTML5, Diseño responsivo">
+    <meta name="author" content="Adib Abud Jaso">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Completar arrastrando</title>
+    <script type="text/javascript" src="dragEnunciados.js"></script>
+    <link rel="stylesheet" href="estilosDragEnunciados.css" />
+</head>
+<body>
+
+<div id="barraFija">
+    <h1>Completar arrastrando</h1>
+    <div class="Dragable" data-tipo="comunicarse"><img class="tache" style="display:none" src="tache.png" />comunicarse</div>
+    <div class="Dragable" data-tipo="biblioteca"><img class="tache" style="display:none" src="tache.png" />biblioteca</div>
+    <div class="Dragable" data-tipo="INEGI"><img class="tache" style="display:none" src="tache.png" />INEGI</div>
+    <div class="Dragable" data-tipo="Enciclomedia"><img class="tache" style="display:none" src="tache.png" />Enciclomedia</div>
+</div>
+<div class="destino" id="drops">
+    1.- Negroponte opina que: "Los niños leen y escriben en Internet para <div class="DropTarget" data-destino="comunicarse"><img class="palomita" style="display:none" src="palomita.png" /></div> y no sólo para completar algún ejercicio abstracto y artificial".<br />
+    2.- A la Internet la podemos comparar como a una gran <div class="DropTarget" data-destino="biblioteca"><img class="palomita" style="display:none" src="palomita.png" /></div>.<br />
+    3.- El <div class="DropTarget" data-destino="INEGI"><img class="palomita" style="display:none" src="palomita.png" /></div> es la entidad del Gobierno mexicano que desarrollo el Portal Ciberhabitat.<br />
+    4.- El proyecto <div class="DropTarget" data-destino="Enciclomedia"><img class="palomita" style="display:none" src="palomita.png" /></div> es un programa de cómputo multimedia que relaciona los contenidos digitales de los libros de texto con recursos interactivos a través de ligas de hipertexto.
+</div>
+
+<div id="retroalimentacion"></div>
+<div id="mensajes"></div>
+
+</body>
+</html>
