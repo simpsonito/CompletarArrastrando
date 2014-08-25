@@ -3,6 +3,7 @@
  * Pendiente:
  * 1: scroll hacia calificación cuando termina
  * 2: reprogramar reinicio
+ * 3: hacer las opciones aleatorias
  */
 
 var oDragTargets = [];//Posiciones de los destinos ("DropTarget")
@@ -30,18 +31,18 @@ function OnLoad(){
 function SetupDragDrop(){
     ajustarDestinos();
     var botones = document.getElementsByClassName("Dragable");
-    for(var boton = 0; boton<botones.length; boton++){
-        MakeDragable(botones[boton]);
-        botones[boton].padreOriginal = botones[boton].parentNode;
-        botones[boton].intentos = 0;
-        //console.log(boton+" - "+botones[boton].parentNode + " - " + botones[boton].padreOriginal);
+    for(var i = 0; i<botones.length; i++){
+        MakeDragable(botones[i]);
+        botones[i].padreOriginal = botones[i].parentNode;
+        botones[i].intentos = 0;
+        //console.log(i+" - "+botones[i].parentNode + " - " + botones[i].padreOriginal);
     }
 }
 function ajustarDestinos(){
     oDragTargets = [];
     var destinos = document.getElementsByClassName("DropTarget");
-    for(var destino = 0; destino<destinos.length; destino++){
-        oDragTargets.push(GetObjPos(destinos[destino]));
+    for(var i = 0; i<destinos.length; i++){
+        oDragTargets.push(GetObjPos(destinos[i]));
     }
 }
 
@@ -154,6 +155,7 @@ function TouchMove(e){
     oDragItem = e.targetTouches[0].target;
     //HandleDragMove(x,y);
     //mensajear("x: "+e.targetTouches[0].clientX+", y: "+e.targetTouches[0].clientY);
+    //console.log("e.targetTouches[0]: ", e.targetTouches[0]);
     HandleDragMove(x,y, e.targetTouches[0].clientX - oDragItem.offsetWidth, e.targetTouches[0].clientY - oDragItem.offsetHeight);
 }
 
@@ -193,7 +195,7 @@ function HandleDragStop(){
             if(oDragItem.intentos >= 2){
                 UnmakeDragable(oDragItem);
                 oDragItem.getElementsByClassName('tache').item(0).style.display = "";
-                mensajear("intentos sobrepasados: ");
+                //mensajear("intentos sobrepasados: ");
                 contestadas++;
                 revisar();
             }
@@ -259,7 +261,7 @@ function OnTargetDrop(){
 }
 
 function mensajear(cadena){
-    document.getElementById("mensajes").innerHTML = cadena;
+    //document.getElementById("mensajes").innerHTML = cadena;
 }
 function retroalimentar(texto){
     document.getElementById("retroalimentacion").innerHTML = texto;
