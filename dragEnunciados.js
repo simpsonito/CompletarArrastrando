@@ -1,32 +1,78 @@
 /**
  * Created by Adib Abud Jaso (http://adib.awardspace.com) on 23/08/14.
- * Pendiente:
- * 1: scroll hacia calificación cuando termina
- * 2: reprogramar reinicio
- * 3: hacer las opciones aleatorias
  */
 
 var oDragTargets = [];//Posiciones de los destinos ("DropTarget")
-var oDragTarget = null;
-var oDragItem = null;
-var iClickOffsetX = 0;
-var iClickOffsetY = 0;
+var oDragTarget;
+var oDragItem;
+var iClickOffsetX;
+var iClickOffsetY;
 
-var buenas = 0;
-var contestadas = 0;
-var total = 4;
+var buenas;
+var contestadas;
+var TOTAL = 4;
+var MAX_INTENTOS = 2;
 
+var bodyOriginal;
+
+function OnLoad(){
+    bodyOriginal = document.body.innerHTML;
+    iniciar();
+}
 window.onload = function(){
     //console.log("cargó la página");
     OnLoad();
+    bodyOriginal = document.body.innerHTML;
     window.onresize = function(){
         //console.log("cambió tamaño");
         ajustarDestinos();
     };
 };
+function iniciar(){
+    oDragTarget = null;
+    oDragItem = null;
+    iClickOffsetX = 0;
+    iClickOffsetY = 0;
 
-function OnLoad(){
+    buenas = 0;
+    contestadas = 0;
+    revolver();
     SetupDragDrop();
+}
+function reiniciar(){
+    document.body.innerHTML = bodyOriginal;
+    iniciar();
+}
+
+function revolver(){
+    var respuestas = document.getElementsByClassName("contenedor");
+    var interior = [];
+    for(var i = 0; i<respuestas.length; i++){
+        interior.push(respuestas[i].innerHTML);
+    }
+    var revueltas = shuffle(interior);
+
+    for (var nodo in respuestas) {
+        respuestas[nodo].innerHTML = revueltas[nodo];
+        //console.log(respuestas[nodo] + ", " + nodo + ", " + respuestas);
+    }
+}
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
 }
 function SetupDragDrop(){
     ajustarDestinos();
@@ -186,13 +232,15 @@ function HandleDragStop(){
             oDragTarget = null;
             contestadas++;
             buenas++;
+            UnmakeDragable(oDragItem);
+            oDragItem.className = "Indragable";
             revisar();
         } else {
             oDragItem.padreOriginal.appendChild(oDragItem);
             oDragItem.style.position="";
             oDragItem.intentos++;
             //mensajear("intentos: "+oDragItem.intentos);
-            if(oDragItem.intentos >= 2){
+            if(oDragItem.intentos >= MAX_INTENTOS){
                 UnmakeDragable(oDragItem);
                 oDragItem.getElementsByClassName('tache').item(0).style.display = "";
                 //mensajear("intentos sobrepasados: ");
@@ -211,9 +259,16 @@ function HandleDragStop(){
     oDragItem = null;
 }
 function revisar(){
-    if(contestadas == total){
-        //mensajear("Terminó todo");
-        retroalimentar('Obtuviste '+ buenas + " de " + total +'.<br /><input type="button" value="Otra vez" onClick="window.location.reload()">');
+    if(contestadas == TOTAL){
+        var mensaje = "";
+        if(buenas == TOTAL){
+            mensaje = "¡Muy bien!";
+        } else {
+            mensaje = "Inténtalo de nuevo.";
+        }
+        //mensajear('Terminótodo');
+        retroalimentar(mensaje+' Obtuviste '+ buenas + " de " + TOTAL +'.<br /><input id="botonReiniciar" type="button" value="Otra vez" onClick="reiniciar()">');
+        document.getElementById('botonReiniciar').scrollIntoView();
     }
 }
 

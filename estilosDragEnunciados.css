@@ -28,6 +28,9 @@ div#barraFija{
     line-height: 2.5em;
     margin-top: 10em;
 }
+.contenedor{
+    display: inline-block;
+}
 .Dragable{
     cursor: move;
     -moz-user-select: -moz-none;
@@ -37,9 +40,8 @@ div#barraFija{
     user-select: none;
     width: auto;
     /*height: 2em;*/
-    margin: 0px;
+    margin: 0;
     padding: 3px;
-    display: inline-block;
     color: #000;
     font-weight: bold;
     border: 1px solid black;
@@ -47,6 +49,11 @@ div#barraFija{
     box-shadow: 1px 2px 5px rgba(0,0,0,200);
     background-color:#FFF;
     vertical-align:middle;
+}
+.Indragable{
+    font-weight: bold;
+    margin: 0;
+    display:inline-block;
 }
 
 .DropTarget{
