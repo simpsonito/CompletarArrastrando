@@ -1,0 +1,85 @@
+@charset "UTF-8";
+body{
+    font-family:"Helvetica", Arial, sans-serif;
+    font-size:12px;
+    text-align:left;
+    margin: 0;
+}
+div#externoFijo{
+    background-color: white;
+    position: fixed;
+    padding: 0;
+    margin:0;
+    top:0;
+    /*overflow: hidden;*/
+}
+div#barraFija{
+    top:1em;
+    color: #333;
+    background:#FFF;
+    padding: 1em;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #adaa9f;
+    border-bottom: none;
+    margin: 1em 1em 0 1em;
+    box-shadow: 0 2px 2px #9c9c9c;
+}
+div.destino{
+    color: #333;
+    background:#FFF;
+    border-radius: 0 0 8px 8px;
+    padding: 10px 10px 30px 30px;
+    margin: 0 1em 1em 1em;
+    border: 1px solid #adaa9f;
+    border-top: none;
+    box-shadow: 0 2px 2px #9c9c9c;
+}
+.parrafo{
+    line-height: 1.3em;
+    text-align:left;
+}
+.subtitulo_01 {	font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    color: #999;
+    text-align:left;
+}
+.titulo_01 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #cf886c;
+    text-align:left;
+}
+/* Estilo para los botones */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    height: 40px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 4px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 10px;
+    clear: none;
+    color: rgba(255, 255, 255, 1);
+    background-color: #3391f5;
+    border-radius: 15px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #666;
+}
+button:hover,
+html input:hover[type="button"], /* 1 */
+input:hover[type="reset"],
+input:hover[type="submit"] {
+    color: rgba(8, 84, 135, .9);
+    background-color: rgba(255, 255, 255, 1);
+    border-color: #999;
+
+    transition: 		color 500ms ease, background-color 500ms ease;
+    -webkit-transition: color 500ms ease, background-color 500ms ease;
+}

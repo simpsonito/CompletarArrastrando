@@ -10,13 +10,14 @@ var iClickOffsetY;
 
 var buenas;
 var contestadas;
-var TOTAL = 4;
+var total;
 var MAX_INTENTOS = 2;
 
 var bodyOriginal;
 
 function OnLoad(){
     bodyOriginal = document.body.innerHTML;
+    total = document.getElementsByClassName("Dragable").length;
     iniciar();
 }
 window.onload = function(){
@@ -85,6 +86,7 @@ function SetupDragDrop(){
     }
 }
 function ajustarDestinos(){
+    document.getElementsByClassName("destino")[0].style.paddingTop = document.getElementById("externoFijo").offsetHeight+"px";
     oDragTargets = [];
     var destinos = document.getElementsByClassName("DropTarget");
     for(var i = 0; i<destinos.length; i++){
@@ -259,15 +261,16 @@ function HandleDragStop(){
     oDragItem = null;
 }
 function revisar(){
-    if(contestadas == TOTAL){
+    if(contestadas == total){
         var mensaje = "";
-        if(buenas == TOTAL){
+        if(buenas == total){
             mensaje = "¡Muy bien!";
         } else {
             mensaje = "Inténtalo de nuevo.";
         }
+        var calificacion = (buenas/total)*10;
         //mensajear('Terminótodo');
-        retroalimentar(mensaje+' Obtuviste '+ buenas + " de " + TOTAL +'.<br /><input id="botonReiniciar" type="button" value="Otra vez" onClick="reiniciar()">');
+        retroalimentar(mensaje+" Calificación: <b>"+calificacion+'</b>. Obtuviste <b>'+ buenas + "</b> de <b>" + total +'</b>.<br /><input id="botonReiniciar" type="button" value="Otra vez" onClick="reiniciar()">');
         document.getElementById('botonReiniciar').scrollIntoView();
     }
 }

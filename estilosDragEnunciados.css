@@ -1,21 +1,17 @@
 @charset "UTF-8";
+/*
 body{
     font-family:"Helvetica", Arial, sans-serif;
     font-size:0.9em;
     text-align:center;
     margin:0;
 }
+*/
 h1{
     margin: 0.5em 0.1em;
 }
 div#barraFija{
-    background-color: #4673d7;
-    color: #FFFFFF;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    box-shadow: 0 1px 4px rgba(0,0,0,128);
-    padding: 0 0 1em 0;
+
 }
 #mensajes{
     background-color: #4673d7;
@@ -26,10 +22,12 @@ div#barraFija{
 }
 .destino{
     line-height: 2.5em;
-    margin-top: 10em;
 }
 .contenedor{
     display: inline-block;
+}
+.tache{
+    vertical-align: bottom;
 }
 .Dragable{
     cursor: move;
