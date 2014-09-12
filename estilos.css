@@ -11,6 +11,7 @@ div#externoFijo{
     padding: 0;
     margin:0;
     top:0;
+    width:100%;
     /*overflow: hidden;*/
 }
 div#barraFija{
@@ -82,4 +83,21 @@ input:hover[type="submit"] {
 
     transition: 		color 500ms ease, background-color 500ms ease;
     -webkit-transition: color 500ms ease, background-color 500ms ease;
+}
+@media (max-width: 480px) {
+    div#barraFija{
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        border-bottom: 1px solid #777;
+        padding-bottom: 0.5em;
+    }
+    div#barraFija p{
+        margin:0.3em;
+    }
+    div.destino{
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
 }
