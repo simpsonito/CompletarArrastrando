@@ -23,12 +23,6 @@ div#barraFija{
 .destino{
     line-height: 2.5em;
 }
-.contenedor{
-    display: inline-block;
-}
-.tache{
-    vertical-align: bottom;
-}
 .Dragable{
     cursor: move;
     -moz-user-select: -moz-none;
@@ -47,6 +41,7 @@ div#barraFija{
     box-shadow: 1px 2px 5px rgba(0,0,0,200);
     background-color:#FFF;
     vertical-align:middle;
+    display: inline-block;
 }
 .Indragable{
     font-weight: bold;
@@ -71,4 +66,19 @@ div#barraFija{
     display:inline-block;
     vertical-align:middle;
     box-shadow: none;
+}
+.bien{
+    background-image: url('palomita.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 16px;/* ancho de la imagen más un poco */
+    margin-left: 10px;
+}
+.mal{
+    background-image: url('tache.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 16px;/* ancho de la imagen más un poco */
+    margin-left: 10px;
+    opacity: 0.75;
 }

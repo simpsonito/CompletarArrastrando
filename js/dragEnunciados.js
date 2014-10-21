@@ -44,36 +44,22 @@ function reiniciar(){
     document.body.innerHTML = bodyOriginal;
     iniciar();
 }
-
 function revolver(){
-    var respuestas = document.getElementsByClassName("contenedor");
-    var interior = [];
-    for(var i = 0; i<respuestas.length; i++){
-        interior.push(respuestas[i].innerHTML);
+    var opciones = Array.from(document.getElementById("respuestas").querySelectorAll("div.Dragable"));
+    shuffle(opciones).forEach(function(elemento) {
+        elemento.parentNode.insertBefore(elemento, elemento.parentNode.firstChild);//se vuelven a agregar para revolver
+    });
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
     }
-    var revueltas = shuffle(interior);
-
-    for (var nodo in respuestas) {
-        respuestas[nodo].innerHTML = revueltas[nodo];
-        //console.log(respuestas[nodo] + ", " + nodo + ", " + respuestas);
-    }
-}
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
 }
 function SetupDragDrop(){
     ajustarDestinos();
@@ -227,7 +213,6 @@ function HandleDragStop(){
         //mensajear("oDragTarget true: "+ oDragItem.getAttribute("data-tipo") + " - " + oDragTarget.getAttribute("data-destino"));
         if(oDragItem.getAttribute("data-tipo") == oDragTarget.getAttribute("data-destino")){
             oDragTarget.appendChild(oDragItem);
-            oDragTarget.getElementsByClassName('palomita').item(0).style.display = "";
             //mensajear("padre: "+ oDragTarget.getElementsByClassName('palomita').item(0));
             OnTargetOut();
             OnTargetDrop();
@@ -235,7 +220,7 @@ function HandleDragStop(){
             contestadas++;
             buenas++;
             UnmakeDragable(oDragItem);
-            oDragItem.className = "Indragable";
+            oDragItem.className = "Indragable bien";
             revisar();
         } else {
             oDragItem.padreOriginal.appendChild(oDragItem);
@@ -244,7 +229,7 @@ function HandleDragStop(){
             //mensajear("intentos: "+oDragItem.intentos);
             if(oDragItem.intentos >= MAX_INTENTOS){
                 UnmakeDragable(oDragItem);
-                oDragItem.getElementsByClassName('tache').item(0).style.display = "";
+                oDragItem.className += " mal";
                 //mensajear("intentos sobrepasados: ");
                 contestadas++;
                 revisar();
