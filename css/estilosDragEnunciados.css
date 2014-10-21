@@ -72,13 +72,13 @@ div#barraFija{
     background-repeat: no-repeat;
     background-position: left center;
     padding-left: 16px;/* ancho de la imagen más un poco */
-    margin-left: 10px;
+    margin: 0 10px;
 }
 .mal{
     background-image: url('tache.png');
     background-repeat: no-repeat;
     background-position: left center;
     padding-left: 16px;/* ancho de la imagen más un poco */
-    margin-left: 10px;
+    margin: 0 10px;
     opacity: 0.75;
 }
