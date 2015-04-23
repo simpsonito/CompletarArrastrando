@@ -158,13 +158,12 @@ function DragMove(o,e){
 }
 
 function HandleDragMove(x,y, botonX, botonY){
-    with(oDragItem.style){
-        zIndex = 1000;
-        /*position="absolute";*/
-        position="fixed";
-        left=botonX+"px";
-        top=botonY+"px";
-    }
+    /* Bloque with obsoleto, se removió, utilizar las siguientes 4 líneas en su lugar*/
+    oDragItem.style.zIndex = 1000;
+    oDragItem.style.position = "fixed";
+    oDragItem.style.left = botonX + "px";
+    oDragItem.style.top = botonY + "px";
+    
 
     for (var i=0; i< oDragTargets.length; i++){
         var oTarget = oDragTargets[i];
