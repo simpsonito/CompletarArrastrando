@@ -149,11 +149,19 @@ function DragStop2(e){
 
 function DragMove(o,e){
     if (oDragItem==null) return;
-
-    if(!e) var e = window.event;
-    var x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
-    var y = e.clientY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
-    //console.log(o.offsetWidth, o.offsetHeight);
+    if(!e){
+        var e = window.event;
+    }
+    //(document.documentElement.scrollTop||document.body.scrollTop)Se usa uno u otro por las diferentes combinaciones que los navegadores aceptan
+    //console.log("scrollTop", document.body.scrollTop, "clientTop", document.body.clientTop, "w.scrollY", window.scrollY, "w.pageYoffset", window.pageYOffset);
+    var x, y;
+    if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+        x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
+        y = e.clientY + window.pageYOffset - document.documentElement.scrollTop - iClickOffsetY;
+    } else {
+        x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
+        y = e.clientY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
+    }
     HandleDragMove(x,y, e.clientX - o.offsetWidth, e.clientY - o.offsetHeight);
 }
 
