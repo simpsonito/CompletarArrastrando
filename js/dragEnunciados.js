@@ -113,6 +113,8 @@ function is_touch_device() {
 
 
 function TouchStart(e){
+    e.preventDefault();
+    e.stopPropagation();
     var oPos = GetObjPos(e.target);
     iClickOffsetX = e.targetTouches[0].pageX - oPos.x;
     iClickOffsetY = e.targetTouches[0].pageY - oPos.y;
@@ -191,9 +193,11 @@ function HandleDragMove(x,y, botonX, botonY){
 
 function TouchMove(e){
     e.preventDefault();
+    e.stopPropagation();
     var x = e.targetTouches[0].pageX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
-    var y = e.targetTouches[0].pageY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
-    oDragItem = e.targetTouches[0].target;
+    //var y = e.targetTouches[0].pageY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
+    var y = e.targetTouches[0].pageY - document.body.clientTop - iClickOffsetY;
+    oDragItem = e.currentTarget;
     //HandleDragMove(x,y);
     //mensajear("x: "+e.targetTouches[0].clientX+", y: "+e.targetTouches[0].clientY);
     //console.log("e.targetTouches[0]: ", e.targetTouches[0]);
@@ -268,7 +272,8 @@ function revisar(){
 }
 
 function TouchEnd(e){
-    //e.target.innerHTML = "TouchEnd";
+    e.preventDefault();
+    e.stopPropagation();
     HandleDragStop();
 }
 
