@@ -1,5 +1,6 @@
 /**
  * Created by Adib Abud Jaso (http://adib.awardspace.com) on 23/08/14.
+ * modificado el 29 enero 2016
  */
 
 var oDragTargets = [];//Posiciones de los destinos ("DropTarget")
@@ -28,6 +29,14 @@ window.onload = function(){
         //console.log("cambió tamaño");
         ajustarDestinos();
     };
+
+    //SCORM
+    var estado = conectividadSCORM.conectarYComenzar();
+    if(estado != "Listo"){
+        console.warn("ESTADO:", estado);
+        //document.getElementById("mensajes").innerHTML = estado;
+    }
+    //fin SCORM
 };
 function iniciar(){
     oDragTarget = null;
@@ -72,7 +81,7 @@ function SetupDragDrop(){
     }
 }
 function ajustarDestinos(){
-    document.getElementsByClassName("destino")[0].style.paddingTop = document.getElementById("externoFijo").offsetHeight+"px";
+    document.getElementsByClassName("destino")[0] = document.getElementById("externoFijo").offsetHeight+"px";
     oDragTargets = [];
     var destinos = document.getElementsByClassName("DropTarget");
     for(var i = 0; i<destinos.length; i++){
@@ -113,9 +122,12 @@ function is_touch_device() {
 
 
 function TouchStart(e){
+    e.stopPropagation();
+    e.preventDefault();
     var oPos = GetObjPos(e.target);
     iClickOffsetX = e.targetTouches[0].pageX - oPos.x;
     iClickOffsetY = e.targetTouches[0].pageY - oPos.y;
+    //console.log("tocando: ", e.currentTarget, e.target);
 }
 
 function DragStart(o,e){
@@ -149,29 +161,20 @@ function DragStop2(e){
 
 function DragMove(o,e){
     if (oDragItem==null) return;
-    if(!e){
-        var e = window.event;
-    }
-    //(document.documentElement.scrollTop||document.body.scrollTop)Se usa uno u otro por las diferentes combinaciones que los navegadores aceptan
-    //console.log("scrollTop", document.body.scrollTop, "clientTop", document.body.clientTop, "w.scrollY", window.scrollY, "w.pageYoffset", window.pageYOffset);
-    var x, y;
-    if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-        x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
-        y = e.clientY + window.pageYOffset - document.documentElement.scrollTop - iClickOffsetY;
-    } else {
-        x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
-        y = e.clientY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
-    }
+
+    if(!e) var e = window.event;
+    var x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
+    var y = e.clientY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
+    //console.log(o.offsetWidth, o.offsetHeight);
     HandleDragMove(x,y, e.clientX - o.offsetWidth, e.clientY - o.offsetHeight);
 }
 
 function HandleDragMove(x,y, botonX, botonY){
-    /* Bloque with obsoleto, se removió, utilizar las siguientes 4 líneas en su lugar*/
     oDragItem.style.zIndex = 1000;
-    oDragItem.style.position = "fixed";
-    oDragItem.style.left = botonX + "px";
-    oDragItem.style.top = botonY + "px";
-    
+    /*oDragItem.style.position="absolute";*/
+    oDragItem.style.position="fixed";
+    oDragItem.style.left=botonX+"px";
+    oDragItem.style.top=botonY+"px";
 
     for (var i=0; i< oDragTargets.length; i++){
         var oTarget = oDragTargets[i];
@@ -191,9 +194,11 @@ function HandleDragMove(x,y, botonX, botonY){
 
 function TouchMove(e){
     e.preventDefault();
+    e.stopPropagation();
     var x = e.targetTouches[0].pageX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
-    var y = e.targetTouches[0].pageY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
-    oDragItem = e.targetTouches[0].target;
+    //var y = e.targetTouches[0].pageY + window.pageYOffset - document.body.clientTop - iClickOffsetY;
+    var y = e.targetTouches[0].pageY - document.body.clientTop - iClickOffsetY;
+    oDragItem = e.currentTarget;
     //HandleDragMove(x,y);
     //mensajear("x: "+e.targetTouches[0].clientX+", y: "+e.targetTouches[0].clientY);
     //console.log("e.targetTouches[0]: ", e.targetTouches[0]);
@@ -237,6 +242,12 @@ function HandleDragStop(){
             if(oDragItem.intentos >= MAX_INTENTOS){
                 UnmakeDragable(oDragItem);
                 oDragItem.className += " mal";
+				if(oDragItem.getAttribute("data-tipo") == '3'){
+					document.getElementById('retro3').style.display = '';
+				}
+				if(oDragItem.getAttribute("data-tipo") == '5'){
+					document.getElementById('retro5').style.display = '';
+				}				
                 //mensajear("intentos sobrepasados: ");
                 contestadas++;
                 revisar();
@@ -255,20 +266,32 @@ function HandleDragStop(){
 function revisar(){
     if(contestadas == total){
         var mensaje = "";
-        if(buenas == total){
-            mensaje = "¡Muy bien!";
-        } else {
-            mensaje = "Inténtalo de nuevo.";
+        switch (buenas) {
+            case 9:
+                mensaje = "";
+                break;
+             case 5: case 6: case 7: case 8:
+                mensaje = "";
+                break;
+			case 0: case 1: case 2: case 3: case 4:
+                mensaje = "";
+                break;
+            default://Cualquier otro (3 ó menos)
         }
-        var calificacion = (buenas/total)*10;
         //mensajear('Terminótodo');
-        retroalimentar(mensaje+" Calificación: <b>"+calificacion+'</b>. Obtuviste <b>'+ buenas + "</b> de <b>" + total +'</b>.<br /><input id="botonReiniciar" type="button" value="Otra vez" onClick="reiniciar()">');
-        document.getElementById('botonReiniciar').scrollIntoView();
+        retroalimentar(mensaje+' Obtuviste '+ buenas + " de " + total + '.');
+        //Completar SCORM
+        conectividadSCORM.desconectarConCalificacion(buenas, total);
+        //FIN Completar SCORM
+        //document.getElementById('botonReiniciar').scrollIntoView();
     }
+    ajustarDestinos();
 }
 
 function TouchEnd(e){
     //e.target.innerHTML = "TouchEnd";
+    e.stopPropagation();
+    e.preventDefault();
     HandleDragStop();
 }
 
