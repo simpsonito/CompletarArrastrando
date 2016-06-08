@@ -11,13 +11,13 @@ var iClickOffsetY;
 var buenas;
 var contestadas;
 var total;
-var MAX_INTENTOS = 2;
+var MAX_INTENTOS = 2;//Número de veces que puede fallar al arrastrar una casilla
 
 var bodyOriginal;
 
 function OnLoad(){
     bodyOriginal = document.body.innerHTML;
-    total = document.getElementsByClassName("Dragable").length;
+    total = document.getElementsByClassName("DropTarget").length;
     iniciar();
 }
 window.onload = function(){
@@ -246,6 +246,7 @@ function HandleDragStop(){
                 revisar();
             }
         }
+        ajustarDestinos();
     } else {
         //Agregado para que regrese si no se coloca en una caja
         //mensajear("oDragTarget es falso, padre"+oDragItem.parentNode + " - original: " + oDragItem.padreOriginal);
@@ -264,7 +265,7 @@ function revisar(){
         } else {
             mensaje = "Inténtalo de nuevo.";
         }
-        var calificacion = (buenas/total)*10;
+        var calificacion = Math.round((buenas/total)*100)/10;
         //mensajear('Terminótodo');
         retroalimentar(mensaje+" Calificación: <b>"+calificacion+'</b>. Obtuviste <b>'+ buenas + "</b> de <b>" + total +'</b>.<br /><input id="botonReiniciar" type="button" value="Otra vez" onClick="reiniciar()">');
         document.getElementById('botonReiniciar').scrollIntoView();
