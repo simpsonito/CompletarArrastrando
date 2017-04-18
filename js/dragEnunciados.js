@@ -159,6 +159,7 @@ function DragMove(o,e){
     var x, y;
     if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
         x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
+        //y = e.clientY + document.documentElement.scrollTop - iClickOffsetY;//2017, nueva línea para firefox
         y = e.clientY + window.pageYOffset - document.documentElement.scrollTop - iClickOffsetY;
     } else {
         x = e.clientX + window.pageXOffset - document.body.clientLeft - iClickOffsetX;
